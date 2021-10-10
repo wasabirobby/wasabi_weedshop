@@ -313,7 +313,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if sessionStarted then
 			local dist = #(GetEntityCoords(PlayerPedId(), true) - vector3(-625.7403, 233.51898, 81.881523))
-			if dist > 15.0 or IsPedInAnyVehicle(PlayerPedId(), false) then
+			if dist > 20.0 or IsPedInAnyVehicle(PlayerPedId(), false) then
 				sessionStarted = false
 				SetEntityAsMissionEntity(marpuc, false, true)
 				DeleteObject(marpuc)
@@ -351,8 +351,7 @@ function hookahIc(masa)
 	end								
 	local obj = CreateObject(model,  coords.x+0.5, coords.y+0.1, coords.z+0.4, true, false, true)
 	marpuc = obj
-	AttachEntityToEntity(obj, playerPed, boneIndex2, -0.43, 0.68, 0.18, 0.0, 90.0, 90.0, true, true, false, true, 1, true)		
-    ESX.ShowNotification("You cannot take the hookah outside the cafe")
+	AttachEntityToEntity(obj, playerPed, boneIndex2, -0.43, 0.68, 0.18, 0.0, 90.0, 90.0, true, true, false, true, 1, true)	
     
     sessionStarted = true	
 end
