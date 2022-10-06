@@ -1,5 +1,10 @@
+-----------------For support, scripts, and more----------------
+--------------- https://discord.gg/wasabiscripts  -------------
+---------------------------------------------------------------
+
 fx_version 'cerulean'
 game 'gta5'
+lua54 'yes'
 description 'ESX Advanced Weed Shop'
 author 'wasabirobby#1111'
 version '1.0.0'

@@ -1,29 +1,21 @@
-ESX = nil
+-----------------For support, scripts, and more----------------
+--------------- https://discord.gg/wasabiscripts  -------------
+---------------------------------------------------------------
+
+ESX = exports["es_extended"]:getSharedObject()
 local HasAlreadyEnteredMarker = false
 local LastZone = nil
 local CurrentAction = nil
 local CurrentActionMsg = ''
 local CurrentActionData = {}
-local PlayerData = {}
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-
-	Citizen.Wait(5000)
-	PlayerData = ESX.GetPlayerData()
-end)
 
 function OpenShopMenu(zone)
---	PlayerData = ESX.GetPlayerData()
-	
-	SendNUIMessage({
+
+	SendNUIMessage{
 		message		= "show",
 		clear = true
-	})
-	
+	}
+
 	local elements = {}
 	for i=1, #Config.Zones[zone].Items, 1 do
 		local item = Config.Zones[zone].Items[i]
@@ -32,7 +24,7 @@ function OpenShopMenu(zone)
 			item.limit = 100
 		end
 
-		SendNUIMessage({
+		SendNUIMessage{
 			message		= "add",
 			item		= item.item,
 			label      	= item.label,
@@ -40,10 +32,10 @@ function OpenShopMenu(zone)
 			price      	= item.price,
 			max        	= item.limit,
 			loc			= zone
-		})
+		}
 
 	end
-	
+
 	ESX.SetTimeout(200, function()
 		SetNuiFocus(true, true)
 	end)
@@ -62,7 +54,7 @@ AddEventHandler('wasabi_weedshop:hasExitedMarker', function(zone)
 end)
 
 -- Create Blips
-Citizen.CreateThread(function()
+CreateThread(function()
 	for k,v in pairs(Config.Zones) do
 		for i = 1, #v.Pos, 1 do
 			local blip = AddBlipForCoord(v.Pos[i].x, v.Pos[i].y, v.Pos[i].z)
@@ -79,9 +71,9 @@ Citizen.CreateThread(function()
 end)
 
 -- Display markers
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Wait(10)
 		local coords = GetEntityCoords(PlayerPedId())
 
 		for k,v in pairs(Config.Zones) do
@@ -97,9 +89,9 @@ Citizen.CreateThread(function()
 end)
 
 -- Enter / Exit marker events
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Wait(10)
 		local coords      = GetEntityCoords(PlayerPedId())
 		local isInMarker  = false
 		local currentZone = nil
@@ -128,9 +120,9 @@ Citizen.CreateThread(function()
 end)
 
 -- Key Controls
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Wait(10)
 
 		if CurrentAction ~= nil then
 
@@ -152,7 +144,7 @@ Citizen.CreateThread(function()
 			end
 
 		else
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
@@ -178,11 +170,11 @@ AddEventHandler('wasabi_weedshop:smokeblunt', function()
 
     RequestAnimSet("move_m@hipster@a") 
     while not HasAnimSetLoaded("move_m@hipster@a") do
-      Citizen.Wait(0)
-    end    
+    	Wait(0)
+    end 
 
     TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_SMOKING_POT", 0, 1)
-    Citizen.Wait(3000)
+    Wait(3000)
     ClearPedTasksImmediately(playerPed)
     SetTimecycleModifier("spectator5")
     SetPedMotionBlur(playerPed, true)
@@ -197,5 +189,5 @@ AddEventHandler('wasabi_weedshop:smokeblunt', function()
     Wait(60000)
 	SetTimecycleModifier("classic")
 	SetPedMotionBlur(playerPed, false)
-    SetRunSprintMultiplierForPlayer(player, 1.0)	
+    SetRunSprintMultiplierForPlayer(player, 1.0)
 end)

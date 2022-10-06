@@ -1,13 +1,6 @@
-ESX = nil
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-end)
-
-
+-----------------For support, scripts, and more----------------
+--------------- https://discord.gg/wasabiscripts  -------------
+---------------------------------------------------------------
 
 local hookahObjects = {}
 local hookahSingleObject = nil
@@ -17,13 +10,12 @@ local sessionStarted = false
 local currentHookah = nil
 local carryingKoz = false
 local koz = {
-
     obj = nil
 }
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
+        Wait(0)
         local ply = PlayerPedId()
         local coords = GetEntityCoords(ply, true)
         if #(coords - Config.hookahYap.coords) < 1.5 then
@@ -82,9 +74,9 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
+        Wait(0)
         for k,v in pairs(Config.Masalar) do
             if carryingHookah or v.alreadyHaveHookah then
                  local ply = PlayerPedId()
@@ -214,13 +206,13 @@ function attachKoz()
     RequestModel(hash)
 
     while not HasModelLoaded(hash) do
-        Citizen.Wait(100)
+        Wait(100)
     end
 
 	local obj = CreateObject(hash,  GetEntityCoords(PlayerPedId()),  true,  true, true)
     RequestNamedPtfxAsset("core")
     while not HasNamedPtfxAssetLoaded('core') do
-        Citizen.Wait(0)
+        Wait(0)
     end
     UseParticleFxAsset("core")
 
@@ -228,7 +220,7 @@ function attachKoz()
     local anim = "amb@world_human_clipboard@male@base"
     RequestAnimDict(anim)
     while not HasAnimDictLoaded(anim) do
-        Citizen.Wait(0)
+        Wait(0)
     end
 	local boneIndex = GetPedBoneIndex(ped, 0x67F2)
     koz.obj = obj;
@@ -246,14 +238,14 @@ function kozle(v)
 
     RequestAnimDict("misscarsteal3pullover")
     while not HasAnimDictLoaded("misscarsteal3pullover") do
-        Citizen.Wait(0)
+        Wait(0)
     end
     TaskPlayAnim(ped, "misscarsteal3pullover", "pull_over_right", 2.0, 2.0, -1, 49, 0, false, false, false)
-    Citizen.Wait(5500)
+    Wait(5500)
     local anim = "amb@world_human_clipboard@male@base"
     RequestAnimDict(anim)
     while not HasAnimDictLoaded(anim) do
-        Citizen.Wait(0)
+        Wait(0)
     end
     local boneIndex = GetPedBoneIndex(ped, 0x67F2)
     TaskPlayAnim(ped, anim, "base",2.0, 2.0, -1, 49, 0, false, false, false)
@@ -268,9 +260,9 @@ RegisterCommand('at', function()
 
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(0)
+        Wait(0)
         for k,v in pairs(hookahObjects) do
    
             local coords = GetEntityCoords(NetworkGetEntityFromNetworkId(v.obj), true)
@@ -294,7 +286,7 @@ Citizen.CreateThread(function()
                     if IsControlJustPressed(0, 74) and v.koz >  0 then -- Normal: H
                         TriggerServerEvent("hookah_smokes", PedToNet(ply))                            
                         TriggerServerEvent('codem-hookah:server:syncKoz', v.obj,  -5)
-                        Citizen.Wait(5000)
+                        Wait(5000)
                     end
 
                     if v.koz > 0 then
@@ -308,9 +300,9 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		if sessionStarted then
 			local dist = #(GetEntityCoords(PlayerPedId(), true) - vector3(-625.7403, 233.51898, 81.881523))
 			if dist > 20.0 or IsPedInAnyVehicle(PlayerPedId(), false) then
@@ -347,7 +339,7 @@ function hookahIc(masa)
 	local model = GetHashKey('v_corp_lngestoolfd')
 	RequestModel(model)
 	while not HasModelLoaded(model) do
-		Citizen.Wait(100)
+		Wait(100)
 	end								
 	local obj = CreateObject(model,  coords.x+0.5, coords.y+0.1, coords.z+0.4, true, false, true)
 	marpuc = obj
@@ -357,10 +349,10 @@ function hookahIc(masa)
 end
 
 function smoke()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while true do
         local ped = PlayerPedId()
-            Citizen.Wait(0)
+            Wait(0)
 
             
             if IsControlJustReleased(0, 23) and sessionStarted then -- Normal: F

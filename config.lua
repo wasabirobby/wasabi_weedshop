@@ -1,4 +1,11 @@
+-----------------For support, scripts, and more----------------
+--------------- https://discord.gg/wasabiscripts  -------------
+---------------------------------------------------------------
+
 Config = {}
+
+Config.checkForUpdates = true -- Check for Updates?
+
 Config.DrawDistance = 100
 Config.Size = {x = 0.5, y = 0.5, z = 0.5}
 Config.Color = {r = 0, g = 128, b = 255}
