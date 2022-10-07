@@ -6,16 +6,17 @@ Config = {}
 
 Config.checkForUpdates = true -- Check for Updates?
 
+Config.OldESX = false
+
 Config.DrawDistance = 100
 Config.Size = {x = 0.5, y = 0.5, z = 0.5}
 Config.Color = {r = 0, g = 128, b = 255}
 Config.Type = 0
-Config.OldESX = false
 
 Config.Zones = {
 	HookahLounge = {
 		Items = {
-			{item = 'backwoods', label = 'Backwoods Cigars', price = 25, limit = -1}, --If NOT using Old ESX, just set to -1 for limit
+			{item = 'backwoods', label = 'Backwoods Cigars', price = 25, limit = -1}, -- If NOT using Old ESX, just set to -1 for limit
 			{item = 'gelato_weed', label = 'Gelato No.33', price = 60, limit = -1},
 			{item = 'gorilla_weed', label = 'Gorilla Glue', price = 82, limit = -1},
 			{item = 'gushers_weed', label = 'Gushers', price = 58, limit = -1},
@@ -28,7 +29,7 @@ Config.Zones = {
 	}
 }
 
-Config.hookahYap = { --Hookah/Embers collecting
+Config.hookahYap = { -- Hookah/Embers collecting
     coords = vector3(-635.5601, 233.80023, 81.88153),
 }
 
@@ -64,22 +65,20 @@ Config.Masalar = { -- Hookah tables
     ['masa8'] = {
         coords =  vector3(-624.7784, 238.54182, 86.149002),
         alreadyHaveHookah = false,
-    },     
+    },
     ['masa9'] = {
         coords =  vector3(-625.9837, 241.92947, 86.149002),
         alreadyHaveHookah = false,
-    },     
+    },
     ['masa10'] = {
         coords =  vector3(-621.3502, 241.97508, 86.149002),
         alreadyHaveHookah = false,
-    },     
+    },
     ['masa11'] = {
         coords =  vector3(-628.6834, 237.03849, 86.122364),
         alreadyHaveHookah = false,
-    }               
+    }
 }
-
-
 
 Strings = {
     ["press_menu"] = "Press ~r~[E]~s~ to access the ~y~store~s~.",
@@ -87,6 +86,5 @@ Strings = {
 	["cannot_hold"] = "You do ~r~not~s~ have enough ~y~free space~s~ in your inventory!",
 	["purchased"] = "You ~g~successfully~s~ purchased some products!",
 	["not_enough"] = "~r~You do not have the money to cover this purchase!~s~",
-    ["no_wrap"] = "~r~You do not have blunt wrap!~s~",
-	
+    ["no_wrap"] = "~r~You do not have blunt wrap!~s~"
 }

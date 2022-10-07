@@ -10,7 +10,6 @@ local CurrentActionMsg = ''
 local CurrentActionData = {}
 
 function OpenShopMenu(zone)
-
 	SendNUIMessage{
 		message		= "show",
 		clear = true
@@ -39,7 +38,6 @@ function OpenShopMenu(zone)
 	ESX.SetTimeout(200, function()
 		SetNuiFocus(true, true)
 	end)
-
 end
 
 AddEventHandler('wasabi_weedshop:hasEnteredMarker', function(zone)
@@ -73,7 +71,6 @@ end)
 -- Display markers
 CreateThread(function()
 	while true do
-		Wait(10)
 		local coords = GetEntityCoords(PlayerPedId())
 
 		for k,v in pairs(Config.Zones) do
@@ -85,13 +82,13 @@ CreateThread(function()
 				end
 			end
 		end
+		Wait(10)
 	end
 end)
 
 -- Enter / Exit marker events
 CreateThread(function()
 	while true do
-		Wait(10)
 		local coords      = GetEntityCoords(PlayerPedId())
 		local isInMarker  = false
 		local currentZone = nil
@@ -116,22 +113,19 @@ CreateThread(function()
 			HasAlreadyEnteredMarker = false
 			TriggerEvent('wasabi_weedshop:hasExitedMarker', LastZone)
 		end
+		Wait(10)
 	end
 end)
 
 -- Key Controls
 CreateThread(function()
 	while true do
-		Wait(10)
-
 		if CurrentAction ~= nil then
-
 			SetTextComponentFormat('STRING')
 			AddTextComponentString(CurrentActionMsg)
 			DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 
 			if IsControlJustReleased(0, 38) then
-
 				if CurrentAction == 'shop_menu' then
 					OpenShopMenu(CurrentActionData.zone)
 				end
@@ -140,23 +134,24 @@ CreateThread(function()
 			elseif IsControlJustReleased (0, 44) then
 				ESX.SetTimeout(200, function()
 					SetNuiFocus(false, false)
-				end)	
+				end)
 			end
 
 		else
 			Wait(500)
 		end
+		Wait(10)
 	end
 end)
 
-function closeGui()
-  SetNuiFocus(false, false)
-  SendNUIMessage({message = "hide"})
+closeGui = function()
+  	SetNuiFocus(false, false)
+  	SendNUIMessage{message = "hide"}
 end
 
 RegisterNUICallback('quit', function(data, cb)
-  closeGui()
-  cb('ok')
+  	closeGui()
+  	cb('ok')
 end)
 
 RegisterNUICallback('purchase', function(data, cb)
@@ -170,8 +165,8 @@ AddEventHandler('wasabi_weedshop:smokeblunt', function()
 
     RequestAnimSet("move_m@hipster@a") 
     while not HasAnimSetLoaded("move_m@hipster@a") do
-    	Wait(0)
-    end 
+    	Wait()
+    end
 
     TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_SMOKING_POT", 0, 1)
     Wait(3000)
@@ -179,7 +174,6 @@ AddEventHandler('wasabi_weedshop:smokeblunt', function()
     SetTimecycleModifier("spectator5")
     SetPedMotionBlur(playerPed, true)
     SetPedMovementClipset(playerPed, "move_m@hipster@a", true)
-
 
     local player = PlayerId()
     SetRunSprintMultiplierForPlayer(player, 1.3)

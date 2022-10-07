@@ -15,7 +15,6 @@ local koz = {
 
 CreateThread(function()
     while true do
-        Wait(0)
         local ply = PlayerPedId()
         local coords = GetEntityCoords(ply, true)
         if #(coords - Config.hookahYap.coords) < 1.5 then
@@ -71,12 +70,12 @@ CreateThread(function()
                 end
             end
         end
+        Wait()
     end
 end)
 
 CreateThread(function()
     while true do
-        Wait(0)
         for k,v in pairs(Config.Masalar) do
             if carryingHookah or v.alreadyHaveHookah then
                  local ply = PlayerPedId()
@@ -94,6 +93,7 @@ CreateThread(function()
                 end
             end
         end
+        Wait()
     end
 end)
 
@@ -104,7 +104,6 @@ AddEventHandler('codem-hookah:client:deleteMarpuc', function(masa)
         local ply = PlayerPedId()
         local coords = GetEntityCoords(ply, true)
         if #(masa - coords ) < 3.0 then
-
             currentHookah = nil
             SetEntityAsMissionEntity(marpuc, true, true)
             DeleteEntity(marpuc)
@@ -126,15 +125,14 @@ AddEventHandler('codem-hookah:client:deleteHookah', function(masa)
         print(v.table, masa)
         if v.table == masa then
             ESX.ShowNotification("You removed the hookah from the table")
-             SetEntityAsMissionEntity(NetworkGetEntityFromNetworkId(v.obj), true, true)
-             DeleteEntity(NetworkGetEntityFromNetworkId(v.obj))
+            SetEntityAsMissionEntity(NetworkGetEntityFromNetworkId(v.obj), true, true)
+            DeleteEntity(NetworkGetEntityFromNetworkId(v.obj))
 
-             table.remove(hookahObjects, k)
+            table.remove(hookahObjects, k)
 
-             return;
+            return;
         end
     end
-  
 end)
 
 RegisterNetEvent('codem-hookah:client:getConfig')
@@ -142,7 +140,7 @@ AddEventHandler('codem-hookah:client:getConfig', function(newConfig)
     Config.Masalar = newConfig
 end)
 
-function putHookahToTable(masa)
+putHookahToTable = function(masa)
     DeleteEntity(hookahSingleObject)
     hookahSingleObject = nil
     carryingHookah = false
@@ -157,11 +155,10 @@ function putHookahToTable(masa)
 
     TriggerServerEvent('codem-hookah:server:setAlreadyHaveHookah',masa, true)
 
-
     ClearPedTasks(PlayerPedId())
 end
 
-function takeHookahFromTable(masa)
+takeHookahFromTable = function(masa)
     for k,v in pairs(hookahObjects) do
         if v.table == masa then
             TriggerServerEvent('codem-hookah:server:deleteMarpuc', v.table)
@@ -182,8 +179,6 @@ RegisterNetEvent('codem-hookah:client:syncHookahTable')
 AddEventHandler('codem-hookah:client:syncHookahTable', function()
 end)
 
-
-
 RegisterNetEvent('codem-hookah:client:syncKoz')
 AddEventHandler('codem-hookah:client:syncKoz', function(obj, amount)
     for k,v in pairs(hookahObjects) do
@@ -198,8 +193,6 @@ AddEventHandler('codem-hookah:client:syncKoz', function(obj, amount)
     end
 end)
 
-
-
 function attachKoz()
 	local hash = GetHashKey('v_corp_boxpaprfd')
 	local ped = PlayerPedId()
@@ -212,7 +205,7 @@ function attachKoz()
 	local obj = CreateObject(hash,  GetEntityCoords(PlayerPedId()),  true,  true, true)
     RequestNamedPtfxAsset("core")
     while not HasNamedPtfxAssetLoaded('core') do
-        Wait(0)
+        Wait()
     end
     UseParticleFxAsset("core")
 
@@ -220,51 +213,43 @@ function attachKoz()
     local anim = "amb@world_human_clipboard@male@base"
     RequestAnimDict(anim)
     while not HasAnimDictLoaded(anim) do
-        Wait(0)
+        Wait()
     end
 	local boneIndex = GetPedBoneIndex(ped, 0x67F2)
     koz.obj = obj;
 
-
     TaskPlayAnim(ped, anim, "base",2.0, 2.0, -1, 49, 0, false, false, false)
-
 
 	AttachEntityToEntity(obj, ped,  boneIndex, 0.15,-0.10,0.0,  -130.0, 310.0, 0.0,  true, true, false, true, 1, true)
 end
-
 
 function kozle(v)
     local ped = PlayerPedId()
 
     RequestAnimDict("misscarsteal3pullover")
     while not HasAnimDictLoaded("misscarsteal3pullover") do
-        Wait(0)
+        Wait()
     end
     TaskPlayAnim(ped, "misscarsteal3pullover", "pull_over_right", 2.0, 2.0, -1, 49, 0, false, false, false)
     Wait(5500)
     local anim = "amb@world_human_clipboard@male@base"
     RequestAnimDict(anim)
     while not HasAnimDictLoaded(anim) do
-        Wait(0)
+        Wait()
     end
     local boneIndex = GetPedBoneIndex(ped, 0x67F2)
     TaskPlayAnim(ped, anim, "base",2.0, 2.0, -1, 49, 0, false, false, false)
 	AttachEntityToEntity(koz.obj, ped,  boneIndex, 0.15,-0.10,0.0,  -130.0, 310.0, 0.0,  true, true, false, true, 1, true)
     TriggerServerEvent('codem-hookah:server:syncKoz', v.obj, 50)
-
 end
-
 
 RegisterCommand('at', function()
     attachKoz()
-
 end)
 
 CreateThread(function()
     while true do
-        Wait(0)
         for k,v in pairs(hookahObjects) do
-   
             local coords = GetEntityCoords(NetworkGetEntityFromNetworkId(v.obj), true)
             local ply = PlayerPedId()
             local coordsPly = GetEntityCoords(ply, true)
@@ -272,7 +257,6 @@ CreateThread(function()
 
                 if IsControlJustPressed(0, 47) and v.koz < 100 and koz.obj and carryingKoz then
                     kozle(v)
-
                 end
                 if not sessionStarted then
                     DrawText3D(coords + 0.20, "[~g~K~s~] -  Smoke | [~g~G~s~] - Add Hookah Embers | ".. ' Hookah Embers : '.. v.koz, 0.55, 1.5)
@@ -280,8 +264,7 @@ CreateThread(function()
 
                         currentHookah = v.obj
                         hookahIc(v.table)
-                
-                    end  
+                    end
                 else
                     if IsControlJustPressed(0, 74) and v.koz >  0 then -- Normal: H
                         TriggerServerEvent("hookah_smokes", PedToNet(ply))                            
@@ -297,12 +280,12 @@ CreateThread(function()
                 end
             end
         end
+        Wait()
     end
 end)
 
 CreateThread(function()
 	while true do
-		Wait(0)
 		if sessionStarted then
 			local dist = #(GetEntityCoords(PlayerPedId(), true) - vector3(-625.7403, 233.51898, 81.881523))
 			if dist > 20.0 or IsPedInAnyVehicle(PlayerPedId(), false) then
@@ -313,23 +296,23 @@ CreateThread(function()
                 ESX.ShowNotification("You cannot take the hookah outside the cafe")
 			end
 		end
+        Wait()
 	end
 end)
 
-function anim()
+anim = function()
 	local ped = PlayerPedId()
 	local ad = "anim@heists@humane_labs@finale@keycards"
 	local anim = "ped_a_enter_loop"
 	while (not HasAnimDictLoaded(ad)) do
 		RequestAnimDict(ad)
-	  Wait(1)
+	    Wait()
 	end
 	TaskPlayAnim(ped, ad, anim, 8.00, -8.00, -1, (2 + 16 + 32), 0.00, 0, 0, 0)
-
 end
 
-function hookahIc(masa)
-   -- TriggerServerEvent('codem-hookah:server:setSessionStarted', masa, true)
+hookahIc = function(masa)
+    -- TriggerServerEvent('codem-hookah:server:setSessionStarted', masa, true)
     smoke()
     anim()
     local playerPed  = PlayerPedId()
@@ -340,35 +323,31 @@ function hookahIc(masa)
 	RequestModel(model)
 	while not HasModelLoaded(model) do
 		Wait(100)
-	end								
+	end
 	local obj = CreateObject(model,  coords.x+0.5, coords.y+0.1, coords.z+0.4, true, false, true)
 	marpuc = obj
 	AttachEntityToEntity(obj, playerPed, boneIndex2, -0.43, 0.68, 0.18, 0.0, 90.0, 90.0, true, true, false, true, 1, true)	
-    
-    sessionStarted = true	
+
+    sessionStarted = true
 end
 
-function smoke()
+smoke = function()
     CreateThread(function()
         while true do
-        local ped = PlayerPedId()
-            Wait(0)
-
-            
+            local ped = PlayerPedId()
             if IsControlJustReleased(0, 23) and sessionStarted then -- Normal: F
                 sessionStarted = false
                 SetEntityAsMissionEntity(marpuc, false, true)
                 DeleteObject(marpuc)
                 currentHookah = nil
 
-
                 ClearPedTasks(PlayerPedId())
-    
+
             end
+            Wait(0)
         end
     end)
 end
-
 
 p_smoke_location = {
 	20279,
@@ -381,8 +360,7 @@ AddEventHandler("c_hookah_smokes", function(c_ped)
 		20279,
 	}
 	local p_smoke_particle = "exp_grd_bzgas_smoke"
-	local p_smoke_particle_asset = "core" 
-
+	local p_smoke_particle_asset = "core"
 
 	for _,bones in pairs(p_smoke_location) do
 		if DoesEntityExist(NetToPed(c_ped)) and not IsEntityDead(NetToPed(c_ped)) then
