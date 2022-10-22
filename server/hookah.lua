@@ -1,3 +1,7 @@
+-----------------For support, scripts, and more----------------
+--------------- https://discord.gg/wasabiscripts  -------------
+---------------------------------------------------------------
+
 RegisterServerEvent('codem-nargile:server:setAlreadyHaveHookah')
 AddEventHandler('codem-nargile:server:setAlreadyHaveHookah', function(masa, toggle)
     Config.Masalar[masa].alreadyHaveHookah = toggle

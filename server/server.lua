@@ -1,7 +1,33 @@
-ESX = nil
+-----------------For support, scripts, and more----------------
+--------------- https://discord.gg/wasabiscripts  -------------
+---------------------------------------------------------------
 
-TriggerEvent('esx:getSharedObject', function(obj) 
-	ESX = obj 
+ESX = exports["es_extended"]:getSharedObject()
+
+MySQL.ready(function()
+    if Config.OldESX then
+        MySQL.Sync.execute(
+            "INSERT IGNORE INTO `items` (`name`, `label`, `limit`, `rare`, `can_remove`) VALUES " ..
+                "('backwoods', 'Backwoods Wrap', 1, 0, 1), " ..
+                "('gelato_weed', 'Gelato No 33', 4, 0, 1), " ..
+                "('gorilla_weed', 'Gorilla Glue', 4, 0, 1), " ..
+                "('gushers_weed', 'Gushers', 4, 0, 1), " ..
+                "('sweeties_weed', 'Sweeties', 4, 0, 1), " ..
+				"('wedding_weed', 'Wedding Cake', 4, 0, 1), " ..
+                "('rolledblunt', 'Rolled Blunt', 4, 0, 1); "
+        )
+    elseif not Config.OldESX then
+        MySQL.Sync.execute(
+            "INSERT IGNORE INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES " ..
+				"('backwoods', 'Backwoods Wrap', 1, 0, 1), " ..
+				"('gelato_weed', 'Gelato No 33', 4, 0, 1), " ..
+				"('gorilla_weed', 'Gorilla Glue', 4, 0, 1), " ..
+				"('gushers_weed', 'Gushers', 4, 0, 1), " ..
+				"('sweeties_weed', 'Sweeties', 4, 0, 1), " ..
+				"('wedding_weed', 'Wedding Cake', 4, 0, 1), " ..
+				"('rolledblunt', 'Rolled Blunt', 4, 0, 1); "
+        )
+    end
 end)
 
 RegisterServerEvent('wasabi_weedshop:buyItem')
@@ -29,7 +55,6 @@ AddEventHandler('wasabi_weedshop:buyItem', function(itemName, amount, zone)
 
 	price = price * amount
 
-	
 	if xPlayer.getMoney() >= price then
 		if Config.OldESX then
 			if sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit then
